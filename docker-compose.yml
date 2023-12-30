@@ -2,7 +2,7 @@ version: '3.1'
 services:
   mariadb:
     image: 'mariadb:11.0'
-    container_name: learning_platform_mariadb
+    container_name: E-learning_platform_mariadb
     working_dir: /application
     volumes:
       - '.:/application'
@@ -16,7 +16,7 @@ services:
 
   webserver:
     image: 'nginx:alpine'
-    container_name: learning_platform_webserver
+    container_name: E-learning_platform_webserver
     working_dir: /application
     volumes:
       - '.:/application'
@@ -26,7 +26,7 @@ services:
 
   php-fpm:
     build: phpdocker/php-fpm
-    container_name: learning_platform_php
+    container_name: E-learning_platform_php
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     working_dir: /application
@@ -43,7 +43,7 @@ services:
 
   phpmyadmin:
     image: 'phpmyadmin/phpmyadmin:latest'
-    container_name: learning_platform_phpmyadmin
+    container_name: E-learning_platform_phpmyadmin
     ports:
       - '1002:80'
     environment:
