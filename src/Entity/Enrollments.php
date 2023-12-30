@@ -25,6 +25,9 @@ class Enrollments
     #[ORM\ManyToOne(inversedBy: 'enrollment')]
     private ?Users $users = null;
 
+    #[ORM\ManyToOne(inversedBy: 'enrollments')]
+    private ?Courses $courses = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Enrollments
     public function setUsers(?Users $users): static
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function getCourses(): ?Courses
+    {
+        return $this->courses;
+    }
+
+    public function setCourses(?Courses $courses): static
+    {
+        $this->courses = $courses;
 
         return $this;
     }
