@@ -13,12 +13,6 @@ class Progress
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'enrollment_id')]
-    private ?int $enrollmentId = null;
-
-    #[ORM\Column(name: 'lesson_id')]
-    private ?int $lessonId = null;
-
     #[ORM\Column]
     private ?int $status = null;
 
@@ -34,30 +28,6 @@ class Progress
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getEnrollmentId(): ?int
-    {
-        return $this->enrollmentId;
-    }
-
-    public function setEnrollmentId(int $enrollmentId): static
-    {
-        $this->enrollmentId = $enrollmentId;
-
-        return $this;
-    }
-
-    public function getLessonId(): ?int
-    {
-        return $this->lessonId;
-    }
-
-    public function setLessonId(int $lessonId): static
-    {
-        $this->lessonId = $lessonId;
-
-        return $this;
     }
 
     public function getStatus(): ?int

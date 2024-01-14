@@ -19,7 +19,11 @@
                 {% else %}
                 <a href="{{ path('app_login') }}" class="nav-item nav-link">login</a>
                 {% endif %}
-                
+
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('admin') }}" class="nav-item nav-link">Admin</a>
+                {% endif %}                
+               
                 {# 
                <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -31,7 +35,7 @@
                 </div> 
                 #}
 
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="{{ path('app_homepage') }}" class="nav-item nav-link">Contact</a>
             </div>
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
             <a href="{{ path('app_register') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>

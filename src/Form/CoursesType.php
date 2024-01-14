@@ -14,14 +14,13 @@ class CoursesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('instructor_id')
             ->add('title')
             ->add('hour')
             ->add('minutes')
             ->add('description')
             ->add('instructors', EntityType::class, [
                 'class' => Users::class,
-'choice_label' => 'id',
+'choice_label' => 'username',
             ])  
         ;
     }

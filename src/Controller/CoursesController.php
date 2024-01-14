@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Courses;
+use App\Entity\Enrollments;
 use App\Form\CoursesType;
 use App\Repository\CoursesRepository;
+use App\Repository\EnrollmentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,6 +76,26 @@ class CoursesController extends AbstractController
             'form' => $form,
             'title' => 'Edit course <br>' . $course->getId()
         ]);
+    }
+
+    #[Route('/{id}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
+    public function enroll(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
+    {
+        $enrollment = new Enrollments();
+        $enrollment->setCourses($course);
+        $enrollment->setUsers($this->getUser());
+        $entityManager->persist($enrollment);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_courses_show', ['id' => $request->get('id')]);
+    }
+
+    #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
+    public function unenroll(Courses $course, EntityManagerInterface $entityManager, EnrollmentsRepository $enrollmentsRepository): Response
+    {
+        $enrollment = $enrollmentsRepository->findOneBy(['course' => $course, 'user' => $this->getUser()]);
+        $entityManager->remove($enrollment);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_courses_index');
     }
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]

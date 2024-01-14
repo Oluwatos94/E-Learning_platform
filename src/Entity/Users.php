@@ -170,7 +170,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
-            $course->setInstructor($this);
+            $course->setInstructors($this);
         }
 
         return $this;
@@ -180,8 +180,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->courses->removeElement($course)) {
             // set the owning side to null (unless already changed)
-            if ($course->getInstructor() === $this) {
-                $course->setInstructor(null);
+            if ($course->getInstructors() === $this) {
+                $course->setInstructors(null);
             }
         }
 

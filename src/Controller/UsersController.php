@@ -13,11 +13,12 @@ class UsersController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function index(): Response
     {
+        /** @var Users $user */
         $user = $this->getUser();
-
-        return $this->render('users/index.html.twig', [
+        return $this->render('Users/index.html.twig', [
             'user' => $user,
-            'tile' => ''
+           // 'image_path' => $user->getProfile()?->getImage(),
+            'title' => 'Profile of <br>' . $user->getUsername()
         ]);
     }
 

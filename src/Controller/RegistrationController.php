@@ -60,7 +60,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'tile' => 'Welcome To Our Online Learning Platform'
+            'title' => 'Welcome To Our Online Learning Platform'
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Courses;
 use App\Entity\Lessons;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,16 +15,12 @@ class LessonsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('courseId')
-            ->add('title')
-            ->add('content')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('courses', EntityType::class, [
+            ->add('course', EntityType::class, [
                 'class' => Courses::class,
-'choice_label' => 'id',
+                'choice_label' => 'title'
             ])
-        ;
+            ->add('title')
+            ->add('content', CKEditorType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

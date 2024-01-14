@@ -25,7 +25,7 @@ class LessonsController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_lessons_new', methods: ['GET', 'POST'])]
+    #[Route('/new/course/{"id"}', name: 'app_lessons_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
