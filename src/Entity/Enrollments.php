@@ -20,7 +20,7 @@ class Enrollments
 
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'enrollments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
+    public ?Users $users = null;
 
     #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'enrollments')]
     #[ORM\JoinColumn(nullable: false)]
