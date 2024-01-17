@@ -17,23 +17,21 @@ class Lessons
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'course_id')]
-    private ?int $courseId = null;
-
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column(name: 'createdAt')]
+    #[ORM\Column(name: "created_at")]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(name: 'updatedAt',nullable: true)]
+    #[ORM\Column(name: "updated_at")]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lessons')]
-    private ?Courses $courses = null;
+    #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Courses $course = null;
 
     #[ORM\OneToMany(mappedBy: 'lessons', targetEntity: Progress::class)]
     private Collection $progresses;
@@ -41,22 +39,17 @@ class Lessons
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
         $this->progresses = new ArrayCollection();
     }
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCourseId(): ?int
+    public function setId(int $id): static
     {
-        return $this->courseId;
-    }
-
-    public function setCourseId(int $courseId): static
-    {
-        $this->courseId = $courseId;
+        $this->id = $id;
 
         return $this;
     }
@@ -102,21 +95,21 @@ class Lessons
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getCourses(): ?Courses
+    public function getCourse(): ?Courses
     {
-        return $this->courses;
+        return $this->course;
     }
 
-    public function setCourses(?Courses $courses): static
+    public function setCourse(?Courses $course): static
     {
-        $this->courses = $courses;
+        $this->course = $course;
 
         return $this;
     }

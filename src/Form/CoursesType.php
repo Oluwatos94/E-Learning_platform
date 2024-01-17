@@ -15,10 +15,10 @@ class CoursesType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('hour')
+            ->add('hours')
             ->add('minutes')
             ->add('description')
-            ->add('instructors', EntityType::class, [
+            ->add('instructor', EntityType::class, [
                 'class' => Users::class,
 'choice_label' => 'username',
             ])  

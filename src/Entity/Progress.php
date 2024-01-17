@@ -16,18 +16,27 @@ class Progress
     #[ORM\Column]
     private ?int $status = null;
 
-    #[ORM\Column(name: 'last_accessed')]
+    #[ORM\Column]
     private ?\DateTimeImmutable $lastAccessed = null;
 
-    #[ORM\ManyToOne(inversedBy: 'progresses')]
-    private ?Enrollments $enrollments = null;
+    #[ORM\ManyToOne(targetEntity: Enrollments::class, inversedBy: 'progresses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Enrollments $enrollment = null;
 
-    #[ORM\ManyToOne(inversedBy: 'progresses')]
+    #[ORM\ManyToOne(targetEntity: Lessons::class, inversedBy: 'progresses')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Lessons $lessons = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getStatus(): ?int
@@ -54,14 +63,14 @@ class Progress
         return $this;
     }
 
-    public function getEnrollments(): ?Enrollments
+    public function getEnrollment(): ?Enrollments
     {
-        return $this->enrollments;
+        return $this->enrollment;
     }
 
-    public function setEnrollments(?Enrollments $enrollments): static
+    public function setEnrollment(?Enrollments $enrollment): static
     {
-        $this->enrollments = $enrollments;
+        $this->enrollment = $enrollment;
 
         return $this;
     }

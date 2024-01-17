@@ -3,14 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\CoursesRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: CoursesRepository::class)]
-#[Broadcast]
 class Courses
 {
     #[ORM\Id]
@@ -32,16 +30,16 @@ class Courses
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Users $instructors = null;
+    private ?Users $instructor = null;
 
-    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lessons::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Lessons::class)]
     private Collection $lessons;
 
-    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollments::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Enrollments::class)]
     private Collection $enrollments;
 
     #[ORM\Column]
-    private ?int $hour = null;
+    private ?int $hours = null;
 
     #[ORM\Column]
     private ?int $minutes = null;
@@ -52,7 +50,6 @@ class Courses
         $this->lessons = new ArrayCollection();
         $this->enrollments = new ArrayCollection();
     }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -64,7 +61,7 @@ class Courses
 
         return $this;
     }
-    
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -106,21 +103,21 @@ class Courses
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getInstructors(): ?Users
+    public function getInstructor(): ?Users
     {
-        return $this->instructors;
+        return $this->instructor;
     }
 
-    public function setInstructors(?Users $instructors): static
+    public function setInstructor(?Users $instructor): static
     {
-        $this->instructors = $instructors;
+        $this->instructor = $instructor;
 
         return $this;
     }
@@ -137,7 +134,7 @@ class Courses
     {
         if (!$this->lessons->contains($lesson)) {
             $this->lessons->add($lesson);
-            $lesson->setCourses($this);
+            $lesson->setCourse($this);
         }
 
         return $this;
@@ -147,8 +144,8 @@ class Courses
     {
         if ($this->lessons->removeElement($lesson)) {
             // set the owning side to null (unless already changed)
-            if ($lesson->getCourses() === $this) {
-                $lesson->setCourses(null);
+            if ($lesson->getCourse() === $this) {
+                $lesson->setCourse(null);
             }
         }
 
@@ -167,7 +164,7 @@ class Courses
     {
         if (!$this->enrollments->contains($enrollment)) {
             $this->enrollments->add($enrollment);
-            $enrollment->setCourses($this);
+            $enrollment->setCourse($this);
         }
 
         return $this;
@@ -177,22 +174,22 @@ class Courses
     {
         if ($this->enrollments->removeElement($enrollment)) {
             // set the owning side to null (unless already changed)
-            if ($enrollment->getCourses() === $this) {
-                $enrollment->setCourses(null);
+            if ($enrollment->getCourse() === $this) {
+                $enrollment->setCourse(null);
             }
         }
 
         return $this;
     }
 
-    public function getHour(): ?int
+    public function getHours(): ?int
     {
-        return $this->hour;
+        return $this->hours;
     }
 
-    public function setHour(int $hour): static
+    public function setHours(int $hours): static
     {
-        $this->hour = $hour;
+        $this->hours = $hours;
 
         return $this;
     }

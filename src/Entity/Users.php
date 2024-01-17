@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-#[UniqueEntity(fields: ['email'], message: 'Email alresdy in use!')]
+#[UniqueEntity(fields: ['email'], message: 'This email already in use!')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -36,17 +36,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $email = null;
 
-    #[ORM\Column(name: 'created_at')]
+    #[ORM\Column(name: "created_at")]
     private ?DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(name: 'updated_at', nullable: true)]
+    #[ORM\Column(name: "updated_at", nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'instructors', targetEntity: Courses::class)]
+    #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: Courses::class)]
     private Collection $courses;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Enrollments::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Enrollments::class)]
     private Collection $enrollments;
+
+    // #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    // private ?Profile $profile = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -57,6 +60,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->courses = new ArrayCollection();
         $this->enrollments = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,18 +74,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
 
         return $this;
     }
@@ -130,6 +122,25 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
     public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
@@ -138,24 +149,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(?DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-    
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setcreatedAt(?DateTimeImmutable $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     /**
@@ -170,7 +163,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
-            $course->setInstructors($this);
+            $course->setInstructor($this);
         }
 
         return $this;
@@ -180,8 +173,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->courses->removeElement($course)) {
             // set the owning side to null (unless already changed)
-            if ($course->getInstructors() === $this) {
-                $course->setInstructors(null);
+            if ($course->getInstructor() === $this) {
+                $course->setInstructor(null);
             }
         }
 
@@ -191,7 +184,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Enrollments>
      */
-    public function getEnrollment(): Collection
+    public function getEnrollments(): Collection
     {
         return $this->enrollments;
     }
@@ -200,7 +193,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->enrollments->contains($enrollment)) {
             $this->enrollments->add($enrollment);
-            $enrollment->setUsers($this);
+            $enrollment->setUser($this);
         }
 
         return $this;
@@ -210,12 +203,22 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->enrollments->removeElement($enrollment)) {
             // set the owning side to null (unless already changed)
-            if ($enrollment->getUsers() === $this) {
-                $enrollment->setUsers(null);
+            if ($enrollment->getUser() === $this) {
+                $enrollment->setUser(null);
             }
         }
 
         return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
     }
 
     public function isVerified(): bool
@@ -229,4 +232,21 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    // public function getProfile(): ?Profile
+    // {
+    //     return $this->profile;
+    // }
+
+    // public function setProfile(Profile $profile): static
+    // {
+    //     // set the owning side of the relation if necessary
+    //     if ($profile->getUser() !== $this) {
+    //         $profile->setUser($this);
+    //     }
+
+    //     $this->profile = $profile;
+
+    //     return $this;
+    // }
 }

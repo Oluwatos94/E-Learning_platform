@@ -21,8 +21,10 @@ class CoursesController extends AbstractController
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
     public function index(CoursesRepository $coursesRepository): Response
     {
+        $currentUser = $this->getUser();
         return $this->render('courses/index.html.twig', [
             'courses' => $coursesRepository->findAll(),
+            'user' => $currentUser,
             'title' => 'List of all courses'
         ]);
     }
@@ -82,8 +84,8 @@ class CoursesController extends AbstractController
     public function enroll(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
         $enrollment = new Enrollments();
-        $enrollment->setCourses($course);
-        $enrollment->setUsers($this->getUser());
+        $enrollment->setCourse($course);
+        $enrollment->setUser($this->getUser());
         $entityManager->persist($enrollment);
         $entityManager->flush();
         return $this->redirectToRoute('app_courses_show', ['id' => $request->get('id')]);

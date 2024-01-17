@@ -7,8 +7,8 @@
         <div class="row">
             <div class="col-12">
                 <h3>{{ course.description }}</h3>
-                <div><i class="fa fa-user-tie text-primary me-2"></i>{{ course.instructors.username }}</div>
-                <div><i class="fa fa-clock text-primary me-2"></i>{{ course.hour }}:{{ course.minutes }} Hrs</div>
+                <div><i class="fa fa-user-tie text-primary me-2"></i>{{ course.instructor.username }}</div>
+                <div><i class="fa fa-clock text-primary me-2"></i>{{ course.hours }}:{{ course.minutes }} Hrs</div>
                 <div><i class="fa fa-user text-primary me-2"></i>{{ course.createdAt ? course.createdAt|date('d.m.Y') : '' }}</div>
             </div>
         </div>
@@ -28,8 +28,8 @@
             <div class="col-auto">
                 <a class="btn btn-primary" href="{{ path('app_courses_index') }}">Back to list</a>
             </div>
-            {% for enrollemnt in course.enrollments %}
-                {% if app.user.id == enrollemnt.user.id %}
+            {% for enrollment in course.enrollments %}
+                {% if app.user.id == enrollment.user.id %}
                     <div class="col-auto">
                         <a class="btn btn-warning" href="{{ path('app_courses_unenroll', {id: course.id}) }}">Unenroll</a>
                     </div>
@@ -39,7 +39,7 @@
                 <div class="col-auto">
                     <a class="btn btn-primary" href="{{ path('app_courses_edit', {'id': course.id}) }}">Edit</a>
                 </div>
-                <div class="col-auto">
+                <div class="col-auto mt-n3">
                     {{ include('courses/_delete_form.html.twig') }}
                 </div>
             {% endif %}
