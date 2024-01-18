@@ -15,7 +15,7 @@
                             {% if not is_granted('ROLE_INSTRUCTOR') %}
                                 {% set found = false %}
                                 {% for enrollment in course.enrollments %}
-                                    {% if user.id == enrollment.users.id %}
+                                    {% if user.id == enrollment.user.id %}
                                         {% set found = true %}
                                         <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Resume</a>
                                     {% endif %}
