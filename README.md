@@ -7,9 +7,9 @@ __Note that this web app is developed for educational purposes and is not a comp
 
 ## Table of content
 * [Features](#Features)
-* [Requirements](#Requiremdents)
-* [Installation Process](#Installation%20Process)
-* [Getting Started](#Getting%20Started)
+* [Requirements](#Requirements)
+* [Installation Process](#Installation-Process)
+* [Getting Started](#Getting-Started)
 
  ## Features ##
  
