@@ -6,10 +6,10 @@ Myschool Tutors is an innovative online learning platform designed to modernize 
 __Note that this web app is developed for educational purposes and is not a complete, production-ready application.__
 
 ## Table of content
-* [Features](Features)
-* [Requirements](Requiremdents)
-* [Installation Process](Installation%20Process)
-* [Getting Started](Getting%20Started)
+* [Features](#Features)
+* [Requirements](#Requiremdents)
+* [Installation Process](#Installation%20Process)
+* [Getting Started](#Getting%20Started)
 
  ## Features ##
  
@@ -35,7 +35,7 @@ __Enrollment, Learning path and Progress tracking__
 ## Installation Process ##
 __Installation for XAMPP Setup__
 
-### Guild lines to successfully install setup ###
+### Guildlines to successfully install setup ###
 1. Clone this repository on your local machine: `git clone https://github.com/Oluwatos94/E-Learning_platform.git`
 
 2. Use `composer update` to install and update all necessary dependencies.
@@ -52,7 +52,7 @@ __Installation for XAMPP Setup__
 
 8. Open the project in your web broswer by clicking on the local server url from your terminal.
 
-### Guild lines to successfully set up with docker machine. ###
+### Guildlines to successfully set up with docker machine. ###
 
 1. `If you prefer to use Docker for running the project, follow these steps:
 
@@ -95,5 +95,10 @@ __Installation for XAMPP Setup__
 
 ## Getting Started ##
 
-#### Now you are set to explore the e-learning platform. You can register, login or create profile and or create courses if you are logged in as an instructor. ####
+#### Now you are set to explore the e-learning platform. You can register, login or create profile and or create courses if you're logged in as an instructor. ####
+
+## Usage ##
+* Instructor can create and manage course.
+* Students can enroll in course and track progress.
+* Explore the platform and enjoy learning with ease.
 
